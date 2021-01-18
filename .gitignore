@@ -1,0 +1,7 @@
+Release
+Debug
+node_modules
+package-lock.json
+build
+dist
+.vs

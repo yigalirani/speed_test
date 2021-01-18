@@ -1,0 +1,35 @@
+{
+  "name": "webpacksudy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "build": "webpack --mode production",
+    "debug": "webpack --mode development",
+    "asbuild:untouched": "asc assembly/index.ts --target debug",
+    "asbuild:optimized": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
+    "test": "node tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-react": "^7.12.7",
+    "assemblyscript": "^0.17.13",
+    "babel": "^6.23.0",
+    "babel-loader": "^8.2.1",
+    "eslint": "^7.16.0",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "webpack": "^5.7.0",
+    "webpack-cli": "^4.2.0"
+  },
+  "dependencies": {
+    "@assemblyscript/loader": "^0.17.13",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
