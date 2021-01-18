@@ -51,6 +51,9 @@ function run_js(start){
   function run_ar(ar,val){
     var w=val
     var n=ar.length
+    /*for (const f of ar) //for some reson, this loop is twice as slow
+      w=f(w)*/
+    
     for(let i=0;i<n;i++){
       w=ar[i](w)
     }
