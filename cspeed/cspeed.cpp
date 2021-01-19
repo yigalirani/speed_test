@@ -3,9 +3,8 @@
 #include <chrono>
 #include <iostream>
 int size= 10000;
-int iter = 10000;
+int iter = 100000;
 typedef int (*Func)(int a);
-
 int f1(int val){
     return val + 1;
 }
@@ -40,10 +39,10 @@ double time() {
     return ans / 1000;
 }
 
-void run_it() {
+void run_it(int start_value) {
     Func* ar = make_func_array();
     double start = time();
-    int ans = run_many(ar, 5);
+    int ans = run_many(ar, start_value);
     double elapsed = time() - start;
     int oper = iter * size * 2;
     std::cout << "oper=" << oper << std::endl;
@@ -51,9 +50,60 @@ void run_it() {
     std::cout<<"elapsed=" << elapsed<<std::endl;
     std::cout << "megpersec=" << oper /elapsed/1000000;
 }
+
+namespace V2 {
+    int f1(int val) {
+        return val + 1;
+    }
+    int f2(int val) {
+        return val + 10;
+    }
+    Func* make_func_array() {
+        Func* ar = new Func[size * 2];
+        for (int i = 0; i < size; i++) {
+            ar[i * 2] = f1;
+            ar[i * 2 + 1] = f2;
+        }
+        //return ans
+        return ar;
+    }
+    int run_ar(Func* ar, int start) {
+        int ans = start;
+        for (int i = 0; i < size * 2; i++) {
+            ans = ar[i](ans);
+        }
+        return ans;
+    }
+    int run_many(Func* ar, int start) {
+        int ans = start;
+        for (int i = 0; i < iter; i++)
+            ans = run_ar(ar, ans);
+        return ans;
+    }
+    double time() {
+        using namespace std::chrono;
+        double ans = (double)duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+        return ans / 1000;
+    }
+
+    void run_it(int start_value) {
+        Func* ar = make_func_array();
+        double start = time();
+        int ans = run_many(ar, start_value);
+        double elapsed = time() - start;
+        int oper = iter * size * 2;
+        std::cout << "oper=" << oper << std::endl;
+        std::cout << "ans=" << ans << std::endl;
+        std::cout << "elapsed=" << elapsed << std::endl;
+        std::cout << "megpersec=" << oper / elapsed / 1000000;
+    }
+
+}
 int main()
 {
-    run_it();
+    run_it(7);
+    std::cout << "v2:============" << std::endl;
+    V2::run_it(8);
 }
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu

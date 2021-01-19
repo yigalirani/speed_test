@@ -28,3 +28,34 @@ export function run_ar(val:i32):i32{
   } 
   return ans
 }
+
+class W {
+  val: i32;
+}
+
+export function makeFnArr(size: i32): Array<(w: W) => void> {
+  const f1 = (w: W): void => {
+    w.val += 1;
+  }
+
+  const f2 = (w: W): void => {
+    w.val += 10;
+  }
+
+  let ans: Array<(w: W) => void> = [];
+  for (let i = 0; i < size; i++) {
+    ans.push(f1);
+    ans.push(f2);   
+  }
+
+  return ans;
+}
+
+export function runArr(arr: Array<(w: W) => void>, val: i32): i32 {
+  let w: W = { val };
+  for (let i = 0, len = arr.length; i < len; i++) {
+    let fn = arr[i];
+    fn(w);
+  }
+  return w.val;
+}
